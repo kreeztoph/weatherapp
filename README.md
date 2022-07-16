@@ -1,6 +1,6 @@
 # weather_app
 
-A new Flutter project.
+A Flutter Weather App Built using clean architecture and BLoC/Cubit State Management.
 
 ## Getting Started
 

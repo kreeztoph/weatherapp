@@ -4,9 +4,13 @@ import 'package:weather_app/core/util/input_converter.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_concrete_weather.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_weather_by_city.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../domain/entities/weather.dart';
 
 part 'weather_state.dart';
+
+const String SERVER_FAILURE_MESSAGE = 'Server Failure';
+const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
 
 class WeatherCubit extends Cubit<WeatherState> {
   final GetConcreteWeather getConcreteWeather;
@@ -23,12 +27,25 @@ class WeatherCubit extends Cubit<WeatherState> {
     emit(WeatherLoading());
     final weather =
         await getConcreteWeather(Params(concLat: lat, concLong: long));
-    emit(WeatherLoaded(weather: weather));
+    emit(weather.fold((failure) => Error(message: mapFailureToMessage(failure)),
+        (weather) => WeatherLoaded(weather: weather)));
   }
 
   Future<void> getWeatherCity(String city) async {
     emit(WeatherLoading());
     final weather = await getWeatherByCity(CityParams(city: city));
-    emit(WeatherLoaded(weather: weather));
+    emit(weather.fold((failure) => Error(message: mapFailureToMessage(failure)),
+        (weather) => WeatherLoaded(weather: weather)));
+  }
+
+  String mapFailureToMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unxpected Error';
+    }
   }
 }
