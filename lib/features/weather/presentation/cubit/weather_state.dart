@@ -18,7 +18,7 @@ class WeatherLoaded extends WeatherState {
   WeatherLoaded({required this.weather});
 
   @override
-  List<Object?> get props => [weather];
+  List<Object> get props => [weather];
 }
 
 class Error extends WeatherState {
@@ -26,5 +26,5 @@ class Error extends WeatherState {
 
   Error({required this.message});
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object> get props => throw UnimplementedError();
 }
