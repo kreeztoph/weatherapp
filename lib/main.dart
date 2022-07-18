@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: await_only_futures
 
-void main() {
+import 'package:flutter/material.dart';
+import 'injection_container.dart' as di;
+
+Future<void> main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const MyApp());
 }
 
