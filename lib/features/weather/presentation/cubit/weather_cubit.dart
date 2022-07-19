@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:weather_app/core/util/input_converter.dart';

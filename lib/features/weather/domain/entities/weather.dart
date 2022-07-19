@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class Weather extends Equatable {
-  final String? weather;
-  final double? latitude;
-  final double? longitude;
-  final String? weatherDescription;
-  final double? mainTemp;
-  final double? feelsLike;
-  final String? country;
-  final String? city;
+  final String weather;
+  final double latitude;
+  final double longitude;
+  final String weatherDescription;
+  final double mainTemp;
+  final double feelsLike;
+  final String country;
+  final String city;
 
   const Weather(
       {required this.weather,

@@ -2,14 +2,14 @@ import '../../domain/entities/weather.dart';
 
 class WeatherModel extends Weather {
   const WeatherModel({
-    required String? weather,
-    required double? latitude,
-    required double? longitude,
-    required String? weatherDescription,
-    required double? mainTemp,
-    required double? feelsLike,
-    required String? country,
-    required String? city,
+    required String weather,
+    required double latitude,
+    required double longitude,
+    required String weatherDescription,
+    required double mainTemp,
+    required double feelsLike,
+    required String country,
+    required String city,
   }) : super(
             weather: weather,
             latitude: latitude,
