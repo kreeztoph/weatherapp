@@ -7,7 +7,7 @@ import 'injection_container.dart' as di;
 Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue,
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(secondary: Colors.blue.shade500)),
-      home: WeatherPage(),
+      home: const WeatherPage(),
     );
   }
 }

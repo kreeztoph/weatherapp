@@ -18,7 +18,9 @@ Future<void> init() async {
   //cubit
   sl.registerFactory(
     () => WeatherCubit(
-        getConcreteWeather: sl(), getWeatherByCity: sl(), inputConverter: sl()),
+      getConcreteWeather: sl(),
+      getWeatherByCity: sl(),
+    ),
   );
 
   //usecases

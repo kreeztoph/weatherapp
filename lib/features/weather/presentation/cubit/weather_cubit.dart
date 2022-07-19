@@ -17,12 +17,12 @@ const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
 class WeatherCubit extends Cubit<WeatherState> {
   final GetConcreteWeather getConcreteWeather;
   final GetWeatherByCity getWeatherByCity;
-  final InputConverter inputConverter;
+  //final InputConverter inputConverter;
 
   WeatherCubit({
     required this.getConcreteWeather,
     required this.getWeatherByCity,
-    required this.inputConverter,
+    //required this.inputConverter,
   }) : super(WeatherInitial());
 
   Future<void> getConcWeather(double lat, double long) async {
