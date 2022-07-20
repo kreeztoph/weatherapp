@@ -5,6 +5,7 @@ abstract class LocationInfo {
 }
 
 class Locationimpl implements LocationInfo {
+  // ignore: unused_field
   Position? _position;
   Locationimpl(this._position);
 
@@ -26,7 +27,6 @@ class Locationimpl implements LocationInfo {
   void getCurrentLocation() async {
     Position position = await determinePosition();
     _position = position;
-    print(_position);
   }
 
   @override
