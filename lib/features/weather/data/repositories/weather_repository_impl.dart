@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_generic_function_type_aliases
 
 import 'package:dartz/dartz.dart';
+import 'package:weather_app/features/weather/data/models/weather_model.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
@@ -44,7 +45,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
     if (await networkInfo.isDeviceConnected) {
       try {
         final remoteWeather = await getConcreteOrCity();
-        localDataSource.cacheWeatherTrivia;
+        localDataSource.cacheWeatherTrivia(remoteWeather as WeatherModel);
         return Right(remoteWeather);
       } on ServerException {
         return Left(ServerFailure());

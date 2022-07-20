@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/features/weather/data/datasources/weather_local_data_source.dart';
 import 'package:weather_app/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:weather_app/features/weather/presentation/widgets/widgets.dart';
 
@@ -19,7 +18,7 @@ class WeatherPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Weather App'),
       ),
-      body: buildBody(),
+      body: SingleChildScrollView(child: buildBody()),
     );
   }
 }
@@ -44,7 +43,7 @@ BlocProvider<WeatherCubit> buildBody() {
                 } else if (state is WeatherLoading) {
                   return LoadingCircle();
                 } else if (state is WeatherLoaded) {
-                  return WeatherDisplay(weather: state.weather);
+                  return WeatherDisplay(mainWeather: state.weather);
                 } else if (state is Error) {
                   return MessageDisplay(message: state.message);
                 } else {
@@ -73,15 +72,38 @@ class WeatherControl extends StatefulWidget {
 }
 
 class _WeatherControlState extends State<WeatherControl> {
+  final controller = TextEditingController();
+  late String inputStr;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        TextField(
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  (30.0),
+                ),
+              ),
+              hintText: 'Input a valid city'),
+          onChanged: (value) {
+            inputStr = value;
+          },
+          onSubmitted: (_) => dispatchWeatherByCity(context),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Weather by Location'),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
+                onPressed: () => dispatchWeatherByCity(context),
+                child: const Text('Weather by City'),
+              ),
             ),
           ],
         ),
@@ -89,13 +111,21 @@ class _WeatherControlState extends State<WeatherControl> {
           children: [
             Expanded(
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
                 onPressed: () {},
-                child: const Text('Weather by City'),
+                child: const Text('Weather by Device Location'),
               ),
             ),
           ],
         ),
       ],
     );
+  }
+
+  void dispatchWeatherByCity(BuildContext context) {
+    controller.clear();
+    BlocProvider.of<WeatherCubit>(context).getWeatherCity(inputStr);
   }
 }
