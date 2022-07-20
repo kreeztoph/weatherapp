@@ -79,11 +79,9 @@ class _WeatherControlState extends State<WeatherControl> {
       children: [
         Row(
           children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Weather by Location'),
-              ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Weather by Location'),
             ),
           ],
         ),
