@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_concrete_weather.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_weather_by_city.dart';
 

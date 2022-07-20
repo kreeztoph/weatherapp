@@ -1,7 +1,8 @@
-// ignore_for_file: constant_identifier_names, prefer_const_constructors
+// ignore_for_file: constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:weather_app/features/weather/presentation/widgets/widgets.dart';
 
@@ -74,6 +75,34 @@ class WeatherControl extends StatefulWidget {
 class _WeatherControlState extends State<WeatherControl> {
   final controller = TextEditingController();
   late String inputStr;
+  late double lat;
+  late double lon;
+  //This is to use users phone location to parse data
+  Future<Position> getGeoLocationPosition() async {
+    bool locationGranted;
+    LocationPermission permission;
+
+    locationGranted = await Geolocator.isLocationServiceEnabled();
+    if (!locationGranted) {
+      await Geolocator.openAppSettings();
+      return Future.error('Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission is denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          "Location permissions are permanently denied, we cannot request permission");
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -114,7 +143,7 @@ class _WeatherControlState extends State<WeatherControl> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
-                onPressed: () {},
+                onPressed: () => dispatchWeatherbyDeviceLocation(context),
                 child: const Text('Weather by Device Location'),
               ),
             ),
@@ -127,5 +156,13 @@ class _WeatherControlState extends State<WeatherControl> {
   void dispatchWeatherByCity(BuildContext context) {
     controller.clear();
     BlocProvider.of<WeatherCubit>(context).getWeatherCity(inputStr);
+  }
+
+  void dispatchWeatherbyDeviceLocation(BuildContext con) async {
+    controller.clear();
+    Position position = await getGeoLocationPosition();
+    lat = position.latitude;
+    lon = position.longitude;
+    BlocProvider.of<WeatherCubit>(context).getConcWeather(lat, lon);
   }
 }

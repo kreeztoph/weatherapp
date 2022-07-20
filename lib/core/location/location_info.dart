@@ -1,34 +1,30 @@
 import 'package:geolocator/geolocator.dart';
 
-abstract class LocationInfo {
-  Future<Position> get isLocationGranted;
-}
+abstract class LocationInfo {}
 
 class Locationimpl implements LocationInfo {
-  // ignore: unused_field
-  Position? _position;
-  Locationimpl(this._position);
-
-  Future<Position> determinePosition() async {
+  Future<Position> getGeoLocationPosition() async {
+    bool locationGranted;
     LocationPermission permission;
 
-    permission = await Geolocator.checkPermission();
+    locationGranted = await Geolocator.isLocationServiceEnabled();
+    if (!locationGranted) {
+      await Geolocator.openAppSettings();
+      return Future.error('Location services are disabled');
+    }
 
+    permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        return Future.error('Location permission is denied');
       }
     }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          "Location permissions are permanently denied, we cannot request permission");
+    }
     return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.best);
   }
-
-  void getCurrentLocation() async {
-    Position position = await determinePosition();
-    _position = position;
-  }
-
-  @override
-  Future<Position> get isLocationGranted => determinePosition();
 }
