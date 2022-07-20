@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 class Weather extends Equatable {
-  final String weather;
-  final double latitude;
-  final double longitude;
+  final String weathers;
+  final double? latitude;
+  final double? longitude;
   final String weatherDescription;
-  final double mainTemp;
-  final double feelsLike;
+  final double? mainTemp;
+  final double? feelsLike;
   final String country;
   final String city;
 
   const Weather(
-      {required this.weather,
+      {required this.weathers,
       required this.latitude,
       required this.longitude,
       required this.weatherDescription,
@@ -22,7 +22,7 @@ class Weather extends Equatable {
 
   @override
   List<Object?> get props => [
-        weather,
+        weathers,
         latitude,
         longitude,
         weatherDescription,

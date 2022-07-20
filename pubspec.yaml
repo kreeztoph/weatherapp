@@ -18,6 +18,7 @@ dependencies:
   cross_connectivity: ^3.0.5
   http: ^0.13.4
   shared_preferences: ^2.0.15
+  geolocator : ^9.0.1
 
 
 
