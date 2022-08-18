@@ -2,10 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-<<<<<<< HEAD
 import 'package:geolocator/geolocator.dart';
-=======
->>>>>>> 97e521aeef61a9ebd3ddc8b1cff5392bbc697d77
 import 'package:weather_app/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:weather_app/features/weather/presentation/widgets/widgets.dart';
 
@@ -78,7 +75,6 @@ class WeatherControl extends StatefulWidget {
 class _WeatherControlState extends State<WeatherControl> {
   final controller = TextEditingController();
   late String inputStr;
-<<<<<<< HEAD
   late double lat;
   late double lon;
   //This is to use users phone location to parse data
@@ -107,8 +103,6 @@ class _WeatherControlState extends State<WeatherControl> {
         desiredAccuracy: LocationAccuracy.best);
   }
 
-=======
->>>>>>> 97e521aeef61a9ebd3ddc8b1cff5392bbc697d77
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -149,11 +143,7 @@ class _WeatherControlState extends State<WeatherControl> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
-<<<<<<< HEAD
                 onPressed: () => dispatchWeatherbyDeviceLocation(context),
-=======
-                onPressed: () {},
->>>>>>> 97e521aeef61a9ebd3ddc8b1cff5392bbc697d77
                 child: const Text('Weather by Device Location'),
               ),
             ),
@@ -167,7 +157,6 @@ class _WeatherControlState extends State<WeatherControl> {
     controller.clear();
     BlocProvider.of<WeatherCubit>(context).getWeatherCity(inputStr);
   }
-<<<<<<< HEAD
 
   void dispatchWeatherbyDeviceLocation(BuildContext con) async {
     controller.clear();
@@ -176,6 +165,4 @@ class _WeatherControlState extends State<WeatherControl> {
     lon = position.longitude;
     BlocProvider.of<WeatherCubit>(context).getConcWeather(lat, lon);
   }
-=======
->>>>>>> 97e521aeef61a9ebd3ddc8b1cff5392bbc697d77
 }
