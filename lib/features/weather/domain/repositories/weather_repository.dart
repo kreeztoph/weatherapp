@@ -1,14 +1,15 @@
 import 'package:dartz/dartz.dart';
+import 'package:weather_app/operation.dart';
 
 import '../../../../core/error/failure.dart';
 import '../entities/weather.dart';
 
 abstract class WeatherRepository {
-  Future<Either<Failure, Weather>> getConcreteWeather(
+  Future<Operation> getConcreteWeather(
     double concLat,
     double concLong,
   );
-  Future<Either<Failure, Weather>> getWeatherByCity(
+  Future<Operation> getWeatherByCity(
     String city,
   );
 }

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_concrete_weather.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_weather_by_city.dart';
+import 'package:weather_app/operation.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/weather.dart';
@@ -29,15 +30,24 @@ class WeatherCubit extends Cubit<WeatherState> {
     emit(WeatherLoading());
     final weather =
         await getConcreteWeather(Params(concLat: lat, concLong: long));
-    emit(weather.fold((failure) => Error(message: mapFailureToMessage(failure)),
-        (weather) => WeatherLoaded(weather: weather)));
+    // emit(weather.fold((failure) => Error(message: mapFailureToMessage(failure)),
+    //     (weather) => WeatherLoaded(weather: weather)));
+
+    emit(weather.when(
+      success: (weather) => WeatherLoaded(weather: weather),
+      failure: (failure) => Error(message: mapFailureToMessage(failure)),
+    ));
   }
 
   Future<void> getWeatherCity(String city) async {
     emit(WeatherLoading());
     final weather = await getWeatherByCity(CityParams(city: city));
-    emit(weather.fold((failure) => Error(message: mapFailureToMessage(failure)),
-        (weather) => WeatherLoaded(weather: weather)));
+    // emit(weather.when((failure) => Error(message: mapFailureToMessage(failure)),
+    //     (weather) => WeatherLoaded(weather: weather)));
+    emit(weather.when(
+      success: (weather) => WeatherLoaded(weather: weather),
+      failure: (failure) => Error(message: mapFailureToMessage(failure)),
+    ));
   }
 
   String mapFailureToMessage(Failure failure) {
